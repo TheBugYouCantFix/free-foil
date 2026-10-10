@@ -9,7 +9,11 @@ libraryDependencies += "org.antlr" % "antlr4-runtime" % "4.9.3"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "free-foil"
+    name := "free-foil",
+    scalacOptions ++= Seq(
+      "-Wunused:imports" 
+    ),
+    scalafixConfig := Some((ThisBuild / baseDirectory).value / ".scalafix.conf")
   )
 
 lazy val runBNFCTask = TaskKey[Unit]("runBNFC", "Run BNF Converter to generate AST, parser, and printer")

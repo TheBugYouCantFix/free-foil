@@ -1,6 +1,6 @@
 package languages
 
-import foil.Foil.*
+import foil.Foil._
 
 object LambdaCalculus {
   sealed trait Expr[N <: S]
@@ -26,15 +26,15 @@ object LambdaCalculus {
     }
 
     def substitute[O <: S, I <: S]
-      (scope: Scope[O], subst: Substitution[Expr, I, O], expr: Expr[I]):Expr[O] = expr match {
+      (scope: Scope[O], subst: Substitution[Expr, I, O], expr: Expr[I]): Expr[O] = expr match {
       case VarE(name) => lookupSubst(subst, name)
       case AppE(f, x) => AppE(substitute(scope, subst, f), substitute(scope, subst, x))
       case LamE(binder, body) => withRefreshed(scope, nameOf(binder))
         { [O1 <: S] => implicit dext: DExt[O, O1] => (binder_ : NameBinder[O, O1]) =>
-        val subst_ = addRename(sink(subst), binder, nameOf(binder_))
-        val scope_ = extendScope(binder_, scope)
-        val body_ = substitute(scope_, subst_, body)
-        LamE(binder_, body_)
+          val subst_ = addRename(sink(subst), binder, nameOf(binder_))
+          val scope_ = extendScope(binder_, scope)
+          val body_ = substitute(scope_, subst_, body)
+          LamE(binder_, body_)
       }
     }
   }

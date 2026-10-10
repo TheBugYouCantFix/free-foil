@@ -1,6 +1,5 @@
 package foil
 
-import Foil.DExt
 import scala.collection.immutable.IntMap
 
 object Foil {
